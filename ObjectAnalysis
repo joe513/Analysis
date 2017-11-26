@@ -43,6 +43,26 @@ class ObjectAnalysis:
     def display_docs_of_class(self):
         help(self.obj.__class__)
 
+    def get_all_own_object_attrs(self):
+
+        own_attrs = []
+
+        for attr in dir(self.obj):
+            if not re.match(self.pattern, attr):
+                own_attrs.append(attr)
+
+        return own_attrs
+
+    def get_all_own_methods(self):
+        own_attrs = self.get_all_own_object_attrs()
+        own_object_methods = []
+
+        for attr in own_attrs:
+            if callable(getattr(self.obj, attr)):
+                own_object_methods.append(attr)
+
+        return own_object_methods
+
 
 class IsObjectAbleAnalysis:
 
@@ -70,6 +90,10 @@ class UniversalAnalysis:
             result = getattr(self.object_analysis, item)
             return result
 
+g = ObjectAnalysis(32)
+print(g.get_all_own_object_attrs())
+print(g.get_all_own_methods())
+
 
 def the_most_important_info_of_object(obj):
     testing_obj = UniversalAnalysis(obj)
@@ -78,7 +102,8 @@ def the_most_important_info_of_object(obj):
           '\nThe class of the object: %s' % testing_obj.class_of_object,
           '\nIs indexable: %s' % testing_obj.is_indexable(),
           '\nIs iterable: %s' % testing_obj.is_iterable(),
-          ''
+          '\nOwn attributes %s'%testing_obj.get_all_own_object_attrs(),
+          '\nOwn methods %s'%testing_obj
 
           )
     print('\n', '_-'*50)
