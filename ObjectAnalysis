@@ -29,17 +29,6 @@ class ObjectAnalysis:
 
         return dir(self.obj)
 
-    # Returns all callable attrs
-    def get_all_callable_attrs(self):
-
-        callable_attrs = []
-
-        for attr in dir(self.obj):
-            if ObjectAnalysis.is_callable(self.obj, attr):
-              callable_attrs.append(attr)
-
-        return callable_attrs
-
     def display_docs_of_class(self):
         help(self.obj.__class__)
 
@@ -63,6 +52,17 @@ class ObjectAnalysis:
 
         return own_object_methods
 
+    def get_all_attrs_except_methods(self):
+
+        except_methods = []
+
+        all_attrs = ObjectAnalysis.get_all_object_attrs(self)
+        for attr in all_attrs:
+            if not ObjectAnalysis.is_callable(self.obj, '%s' % attr):
+                except_methods.append(attr)
+
+        return except_methods
+
 
 class IsObjectAbleAnalysis:
 
@@ -83,27 +83,29 @@ class UniversalAnalysis:
         self.object_analysis = ObjectAnalysis(obj)
 
     def __getattr__(self, item):
-        try:
-            result = getattr(self.Able, item)
-            return result
-        except AttributeError:
-            result = getattr(self.object_analysis, item)
-            return result
-
-g = ObjectAnalysis(32)
-print(g.get_all_own_object_attrs())
-print(g.get_all_own_methods())
+        for klass in (self.Able, self.object_analysis):
+            if hasattr(klass, '%s' % item):
+                return getattr(klass, '%s' % item)
 
 
 def the_most_important_info_of_object(obj):
+
+    width = 150
+
     testing_obj = UniversalAnalysis(obj)
-    print('_-'*50, '\n')
+    print('_-'*width, '\n')
     print('The object to be analyzed: {}'.format(obj),
           '\nThe class of the object: %s' % testing_obj.class_of_object,
           '\nIs indexable: %s' % testing_obj.is_indexable(),
           '\nIs iterable: %s' % testing_obj.is_iterable(),
-          '\nOwn attributes %s'%testing_obj.get_all_own_object_attrs(),
-          '\nOwn methods %s'%testing_obj
-
+          '\nOwn attributes (Not class attrs): %s' % testing_obj.get_all_own_object_attrs(),
+          '\nOwn methods (Not class methods): %s' % testing_obj.get_all_own_methods(),
+          '\nAll attributes: %s' % testing_obj.get_all_object_attrs(),
+          '\nAll methods: %s' % testing_obj.get_all_object_methods(),
+          '\nAll attributes besides methods: %s' % testing_obj.get_all_attrs_except_methods()
           )
-    print('\n', '_-'*50)
+    print('\n', '_-'*width)
+
+
+if __name__ == '__main__':
+    the_most_important_info_of_object(open('five.txt', 'a+'))
