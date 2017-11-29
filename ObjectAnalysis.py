@@ -1,10 +1,14 @@
 import re
 
+__author__ = "Jabrail Lezgintsev ( joe513 )"
+__github__ = 'https://github.com/joe513'
+__email__ = 'lezgintsev13@yandex.ru'
+
 
 class ObjectAnalysis:
 
     def __init__(self, obj):
-        self.obj = obj
+        self.obj = obj  # Processed object
         self.pattern = re.compile('__(.*)__')
         self.class_of_object = self.obj.__class__  # This is the class of the object
 
@@ -12,7 +16,6 @@ class ObjectAnalysis:
     is_callable = lambda _object, attr: callable(getattr(_object, '%s' % attr))
 
     # Returns all object methods
-
     def get_all_object_methods(self):
 
         methods = [attr for attr in dir(self.obj) if ObjectAnalysis.is_callable(self.obj, attr) \
@@ -24,6 +27,7 @@ class ObjectAnalysis:
     def get_all_object_attrs(self):
         return dir(self.obj)
 
+    #display docs about the class
     def display_docs_of_class(self):
         help(self.obj.__class__)
 
@@ -48,6 +52,7 @@ class ObjectAnalysis:
         return except_methods
 
 
+# Checks is object able to be ...
 class IsObjectAbleAnalysis:
 
     def __init__(self, obj):
@@ -63,6 +68,7 @@ class IsObjectAbleAnalysis:
         return hasattr(self.obj, '__call__')
 
 
+# Wrapper
 class UniversalAnalysis:
 
     def __init__(self, obj):
@@ -75,6 +81,7 @@ class UniversalAnalysis:
                 return getattr(klass, '%s' % item)
 
 
+# In my opinion this is the most important object info ( this will be completed )
 def the_most_important_info_of_object(obj):
 
     width = 150
