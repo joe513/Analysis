@@ -113,4 +113,5 @@ def the_most_important_info_of_object(obj):
 
 
 if __name__ == '__main__':
+	print('testing')
     the_most_important_info_of_object(open('five.txt', 'a+'))
