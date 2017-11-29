@@ -12,21 +12,16 @@ class ObjectAnalysis:
     is_callable = lambda _object, attr: callable(getattr(_object, '%s' % attr))
 
     # Returns all object methods
+
     def get_all_object_methods(self):
 
-        methods = []
-
-        for attr in dir(self.obj):
-
-            if ObjectAnalysis.is_callable(self.obj, attr):
-                if not re.match(self.pattern, str(attr)):
-                    methods.append(attr)
+        methods = [attr for attr in dir(self.obj) if ObjectAnalysis.is_callable(self.obj, attr) \
+                   if not re.match(self.pattern, str(attr))]
 
         return methods
 
     #  Returns all object attrs
     def get_all_object_attrs(self):
-
         return dir(self.obj)
 
     def display_docs_of_class(self):
@@ -34,32 +29,21 @@ class ObjectAnalysis:
 
     def get_all_own_object_attrs(self):
 
-        own_attrs = []
-
-        for attr in dir(self.obj):
-            if not re.match(self.pattern, attr):
-                own_attrs.append(attr)
+        own_attrs = [attr for attr in dir(self.obj) if not re.match(self.pattern, attr)]
 
         return own_attrs
 
     def get_all_own_methods(self):
         own_attrs = self.get_all_own_object_attrs()
-        own_object_methods = []
 
-        for attr in own_attrs:
-            if callable(getattr(self.obj, attr)):
-                own_object_methods.append(attr)
+        own_object_methods = [attr for attr in own_attrs if callable(getattr(self.obj, attr))]
 
         return own_object_methods
 
     def get_all_attrs_except_methods(self):
-
-        except_methods = []
-
         all_attrs = ObjectAnalysis.get_all_object_attrs(self)
-        for attr in all_attrs:
-            if not ObjectAnalysis.is_callable(self.obj, '%s' % attr):
-                except_methods.append(attr)
+
+        except_methods = [attr for attr in all_attrs if not ObjectAnalysis.is_callable(self.obj, '%s' % attr)]
 
         return except_methods
 
