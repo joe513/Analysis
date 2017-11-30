@@ -88,16 +88,16 @@ def the_most_important_info_of_object(obj):
 
     testing_obj = UniversalAnalysis(obj)
     print('_-'*width, '\n')
-    print('The object to be analyzed: {}'.format(obj),
-          '\nThe class of the object: %s' % testing_obj.class_of_object,
-          '\nIs indexable: %s' % testing_obj.is_indexable(),
-          '\nIs iterable: %s' % testing_obj.is_iterable(),
-          '\nIs callable: %s' % testing_obj.is_callable(),
+    print('The object to be analyzed       : %s' % obj,
+          '\nThe class of the object         : %s' % testing_obj.class_of_object,
+          '\nIs indexable                    : %s' % testing_obj.is_indexable(),
+          '\nIs iterable                     : %s' % testing_obj.is_iterable(),
+          '\nIs callable                     : %s' % testing_obj.is_callable(),
           '\nOwn attributes (Not class attrs): %s' % testing_obj.get_all_own_object_attrs(),
-          '\nOwn methods (Not class methods): %s' % testing_obj.get_all_own_methods(),
-          '\nAll attributes: %s' % testing_obj.get_all_object_attrs(),
-          '\nAll methods: %s' % testing_obj.get_all_object_methods(),
-          '\nAll attributes besides methods: %s' % testing_obj.get_all_attrs_except_methods(),
+          '\nOwn methods (Not class methods) : %s' % testing_obj.get_all_own_methods(),
+          '\nAll attributes                  : %s' % testing_obj.get_all_object_attrs(),
+          '\nAll methods                     : %s' % testing_obj.get_all_object_methods(),
+          '\nAll attributes besides methods  : %s' % testing_obj.get_all_attrs_except_methods(),
           
           )
     print('\n', '_-'*width)
