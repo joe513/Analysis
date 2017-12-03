@@ -75,8 +75,8 @@ class UniversalAnalysis:
         self.Able = IsObjectAbleAnalysis(obj)
         self.object_analysis = ObjectAnalysis(obj)
 
-    def __getattr__(self, item):
-        for klass in (self.Able, self.object_analysis):
+    def __getattribute__(self, item):
+        for klass in (object.__getattribute__(self, 'Able'), object.__getattribute__(self, 'object_analysis')):
             if hasattr(klass, '%s' % item):
                 return getattr(klass, '%s' % item)
 
@@ -98,7 +98,7 @@ def the_most_important_info_of_object(obj):
           '\nAll attributes                  : %s' % testing_obj.get_all_object_attrs(),
           '\nAll methods                     : %s' % testing_obj.get_all_object_methods(),
           '\nAll attributes besides methods  : %s' % testing_obj.get_all_attrs_except_methods(),
-          
+
           )
     print('\n', '_-'*width)
 
