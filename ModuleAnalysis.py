@@ -1,4 +1,3 @@
-import webbrowser
 import sys
 import re
 
@@ -24,15 +23,17 @@ class ModuleAnalysis:
     def get_all_attrs(self):
         return self.module.__dict__
 
-    def get_own_attrs(self):
+    def get_own_attrs(self, dict_or_list='dict'):
         own_attrs = {}
         for attr in self.get_all_attrs():
             if not re.match(self.pattern, str(attr)):
                 own_attrs[attr] = getattr(self.module, '%s' % attr)
 
+        print(own_attrs.keys())
 
-        return own_attrs
+        return own_attrs if dict_or_list == 'dict' else list(own_attrs.keys())
 
 
-my = ModuleAnalysis(sys.modules[__name__])
-print(my.get_own_attrs())
+if __name__ == '__main__':
+    my = ModuleAnalysis(sys)
+    print(my.get_own_attrs('list'))
