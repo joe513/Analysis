@@ -27,7 +27,7 @@ class ModuleAnalysis:
         own_attrs = {}
         for attr in self.get_all_attrs():
             if not re.match(self.pattern, str(attr)):
-                own_attrs[attr] = getattr(self.module, '%s' % attr)
+                own_attrs[attr] = getattr(self.module, attr)
 
         print(own_attrs.keys())
 

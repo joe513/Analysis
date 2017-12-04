@@ -47,7 +47,7 @@ class ObjectAnalysis:
     def get_all_attrs_except_methods(self):
         all_attrs = ObjectAnalysis.get_all_object_attrs(self)
 
-        except_methods = [attr for attr in all_attrs if not ObjectAnalysis.is_callable(self.obj, '%s' % attr)]
+        except_methods = [attr for attr in all_attrs if not ObjectAnalysis.is_callable(self.obj, attr)]
 
         return except_methods
 
@@ -78,7 +78,7 @@ class UniversalAnalysis:
     def __getattribute__(self, item):
         for klass in (object.__getattribute__(self, 'Able'), object.__getattribute__(self, 'object_analysis')):
             if hasattr(klass, '%s' % item):
-                return getattr(klass, '%s' % item)
+                return getattr(klass, item)
 
 
 # In my opinion this is the most important object info ( this will be completed )
