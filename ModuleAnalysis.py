@@ -1,7 +1,7 @@
 import sys
 import re
 
-__author__ = 'Jabrail Lezgintsev (joe513)
+__author__ = 'Jabrail Lezgintsev (joe513)'
 __github__ = 'https://github.com/joe513'
 __email__ = 'lezgintsev13@yandex.ru'
 
