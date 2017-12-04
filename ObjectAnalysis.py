@@ -13,7 +13,7 @@ class ObjectAnalysis:
         self.class_of_object = self.obj.__class__  # This is the class of the object
 
     # Checking: is object callable
-    is_callable = lambda _object, attr: callable(getattr(_object, '%s' % attr))
+    is_callable = lambda _object, attr: callable(getattr(_object, attr))
 
     # Returns all object methods
     def get_all_object_methods(self):
@@ -77,7 +77,7 @@ class UniversalAnalysis:
 
     def __getattribute__(self, item):
         for klass in (object.__getattribute__(self, 'Able'), object.__getattribute__(self, 'object_analysis')):
-            if hasattr(klass, '%s' % item):
+            if hasattr(klass, item):
                 return getattr(klass, item)
 
 
