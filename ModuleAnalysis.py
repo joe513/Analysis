@@ -1,5 +1,7 @@
 import sys
 import re
+import inspect
+
 
 __author__ = 'Jabrail Lezgintsev (joe513)'
 __github__ = 'https://github.com/joe513'
@@ -28,16 +30,17 @@ class ModuleAnalysis:
         return self.module.__dict__
 
     def get_own_attrs(self, dict_or_list='dict'):
-        own_attrs = {}
-        for attr in self.get_all_attrs():
-            if not re.match(self.pattern, str(attr)):
-                own_attrs[attr] = getattr(self.module, attr)
 
-        print(own_attrs.keys())
+        own_attrs = {attr: getattr(self.module, attr) for attr in self.get_all_attrs() \
+                     if not re.match(self.pattern, str(attr))}
 
         return own_attrs if dict_or_list == 'dict' else list(own_attrs.keys())
 
+    def get_all_classes(self):
+        classes = [attr for attr in dir(self.module) if inspect.isclass(getattr(self.module, attr))]
+        return classes
+
 
 if __name__ == '__main__':
-    my = ModuleAnalysis(sys)
-    print(my.get_own_attrs('list'))
+    my = ModuleAnalysis(inspect)
+    print(my.get_own_attrs())
