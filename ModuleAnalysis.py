@@ -30,7 +30,7 @@ class ModuleAnalysis:
         return self.module.__dict__
 
     def get_own_attrs(self, dict_or_list='dict'):
-    
+
         own_attrs = {attr: getattr(self.module, attr) for attr in self.get_all_attrs()
                      if not re.match(self.pattern, str(attr))}
 
