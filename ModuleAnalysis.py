@@ -15,7 +15,7 @@ class ModuleAnalysis:
 
     def display_available_functions(self):
 
-        print('Function: ', ' ' * 37,'link:')
+        print('Function: ', ' ' * 37, 'link:')
         for func in self.module.__dict__:
             if inspect.isfunction(getattr(self.module, func)):
                 letters_c = len(repr(func))
@@ -41,7 +41,6 @@ class ModuleAnalysis:
                                 if not inspect.ismethod(getattr(self.module, attr))
                                 if not inspect.isfunction(getattr(self.module, attr))]
         return attrs_beside_methods
-
 
 
 my = ModuleAnalysis(inspect)
