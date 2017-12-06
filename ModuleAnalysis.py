@@ -22,6 +22,10 @@ class ModuleAnalysis:
                 x = 50 - letters_c
                 print('%s %s: %s' % (func, ' ' * x, getattr(self.module, str(func))))
 
+    def get_all_classes(self):
+        classes = [klass for klass in self.module.__dict__ if inspect.isclass(getattr(self.module, klass))]
+        return classes
+
     def get_all_attrs(self):
         return self.module.__dict__
 
@@ -32,10 +36,6 @@ class ModuleAnalysis:
 
         return own_attrs if dict_or_list == 'dict' else list(own_attrs.keys())
 
-    def get_all_classes(self):
-        classes = [attr for attr in dir(self.module) if inspect.isclass(getattr(self.module, attr))]
-        return classes
-
     def get_all_attrs_beside_methods(self):
         attrs_beside_methods = [attr for attr in self.module.__dict__
                                 if not inspect.ismethod(getattr(self.module, attr))
@@ -45,5 +45,4 @@ class ModuleAnalysis:
 
 
 my = ModuleAnalysis(inspect)
-for attr in my.get_all_attrs_beside_methods():
-     print(getattr(my.module, attr))
+print(my.get_all_classes())
