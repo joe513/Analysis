@@ -15,22 +15,19 @@ class ModuleAnalysis:
 
     def display_available_functions(self):
 
-        print('Function: ', '                  Result:')
+        print('Function: ', ' ' * 37,'link:')
         for func in self.module.__dict__:
-            if type(getattr(self.module, str(func))) == "<class 'builtin_function_or_method'>":
-                try:
-                    letters_c = len(repr(func))
-                    x = 30 - letters_c
-                    print('%s %s: %s' % (func, ' ' * x, getattr(self.module, str(func))()))
-                except (TypeError, IndexError):
-                    continue
+            if inspect.isfunction(getattr(self.module, func)):
+                letters_c = len(repr(func))
+                x = 50 - letters_c
+                print('%s %s: %s' % (func, ' ' * x, getattr(self.module, str(func))))
 
     def get_all_attrs(self):
         return self.module.__dict__
 
     def get_own_attrs(self, dict_or_list='dict'):
 
-        own_attrs = {attr: getattr(self.module, attr) for attr in self.get_all_attrs() \
+        own_attrs = {attr: getattr(self.module, attr) for attr in self.get_all_attrs()
                      if not re.match(self.pattern, str(attr))}
 
         return own_attrs if dict_or_list == 'dict' else list(own_attrs.keys())
@@ -39,7 +36,14 @@ class ModuleAnalysis:
         classes = [attr for attr in dir(self.module) if inspect.isclass(getattr(self.module, attr))]
         return classes
 
+    def get_all_attrs_beside_methods(self):
+        attrs_beside_methods = [attr for attr in self.module.__dict__
+                                if not inspect.ismethod(getattr(self.module, attr))
+                                if not inspect.isfunction(getattr(self.module, attr))]
+        return attrs_beside_methods
 
-if __name__ == '__main__':
-    my = ModuleAnalysis(inspect)
-    print(my.get_own_attrs())
+
+
+my = ModuleAnalysis(inspect)
+for attr in my.get_all_attrs_beside_methods():
+     print(getattr(my.module, attr))
