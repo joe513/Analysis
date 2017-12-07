@@ -82,22 +82,22 @@ class UniversalAnalysis:
 
 
 # In my opinion this is the most important object info ( this will be completed )
-def the_most_important_info_of_object(obj):
+def the_most_important_info_of_object(obj, width=150):
 
-    width = 150
 
     testing_obj = UniversalAnalysis(obj)
     print('_-'*width, '\n')
     print('The object to be analyzed       : %s' % obj,
-          '\nThe class of the object         : %s' % testing_obj.class_of_object,
-          '\nIs indexable                    : %s' % testing_obj.is_indexable(),
-          '\nIs iterable                     : %s' % testing_obj.is_iterable(),
-          '\nIs callable                     : %s' % testing_obj.is_callable(),
-          '\nOwn attributes (Not class attrs): %s' % testing_obj.get_all_own_object_attrs(),
-          '\nOwn methods (Not class methods) : %s' % testing_obj.get_all_own_methods(),
-          '\nAll attributes                  : %s' % testing_obj.get_all_object_attrs(),
-          '\nAll methods                     : %s' % testing_obj.get_all_object_methods(),
-          '\nAll attributes besides methods  : %s' % testing_obj.get_all_attrs_except_methods(),
+          'The class of the object         : %s' % testing_obj.class_of_object,
+          'Is indexable                    : %s' % testing_obj.is_indexable(),
+          'Is iterable                     : %s' % testing_obj.is_iterable(),
+          'Is callable                     : %s' % testing_obj.is_callable(),
+          'Own attributes (Not class attrs): %s' % testing_obj.get_all_own_object_attrs(),
+          'Own methods (Not class methods) : %s' % testing_obj.get_all_own_methods(),
+          'All attributes                  : %s' % testing_obj.get_all_object_attrs(),
+          'All methods                     : %s' % testing_obj.get_all_object_methods(),
+          'All attributes besides methods  : %s' % testing_obj.get_all_attrs_except_methods(),
+          sep='\n',
 
           )
     print('\n', '_-'*width)
