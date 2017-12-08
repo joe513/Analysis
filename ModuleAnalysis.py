@@ -1,6 +1,6 @@
 import re
 import inspect
-
+import analysis
 
 __author__ = 'Jabrail Lezgintsev (joe513)'
 __github__ = 'https://github.com/joe513'
@@ -15,12 +15,18 @@ class ModuleAnalysis:
 
     def display_available_functions(self):
 
+        avaiable_func = []
+
         print('Function: ', ' ' * 37, 'link:')
         for func in self.module.__dict__:
             if inspect.isfunction(getattr(self.module, func)):
                 letters_c = len(repr(func))
                 x = 50 - letters_c
                 print('%s %s: %s' % (func, ' ' * x, getattr(self.module, str(func))))
+
+    def get_avaiable_functions(self):
+        avaiabe_functions = [func for func in self.module.__dict__ if inspect.isfunction(getattr(self.module, func))]
+        return avaiabe_functions
 
     def get_all_classes(self):
         classes = [klass for klass in self.module.__dict__ if inspect.isclass(getattr(self.module, klass))]
@@ -43,5 +49,15 @@ class ModuleAnalysis:
         return attrs_beside_methods
 
 
-my = ModuleAnalysis(inspect)
-print(my.get_all_classes())
+class TryCall(ModuleAnalysis):
+
+    def call_with_one_arg(self):
+        for func in self.get_avaiable_functions():
+            if getattr(self.module, func).__code__.co_argcount == 0:
+                try:
+                    getattr(self.module, func)()
+                except Exception:
+                    continue
+
+
+z = TryCall(analysis)

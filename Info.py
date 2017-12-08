@@ -14,7 +14,6 @@ def info(obj):
 
     obje = ObjectAnalysis.IsObjectAbleAnalysis(obj)
 
-
     print(
           "-"*40,
           "              Common:",
@@ -30,8 +29,6 @@ def info(obj):
 
 
           sep='\n'
-
-
           )
 
 
