@@ -6,7 +6,6 @@ __email__ = 'lezgintsev13@yandex.ru'
 
 
 class ObjectAnalysis:
-
     def __init__(self, obj):
         self.obj = obj  # Processed object
         self.pattern = re.compile('__(.*)__')
@@ -17,44 +16,32 @@ class ObjectAnalysis:
 
     # Returns all object methods
     def get_all_object_methods(self):
-
-        methods = [attr for attr in dir(self.obj) if ObjectAnalysis.is_callable(self.obj, attr) \
+        return [attr for attr in dir(self.obj) if ObjectAnalysis.is_callable(self.obj, attr)
                    if not re.match(self.pattern, str(attr))]
-
-        return methods
 
     #  Returns all object attrs
     def get_all_object_attrs(self):
         return dir(self.obj)
 
-    #display docs about the class
+    # display docs about the class
     def display_docs_of_class(self):
         help(self.obj.__class__)
 
     def get_all_own_object_attrs(self):
-
-        own_attrs = [attr for attr in dir(self.obj) if not re.match(self.pattern, attr)]
-
-        return own_attrs
+        return [attr for attr in dir(self.obj) if not re.match(self.pattern, attr)]
 
     def get_all_own_methods(self):
-        own_attrs = self.get_all_own_object_attrs()
-
-        own_object_methods = [attr for attr in own_attrs if callable(getattr(self.obj, attr))]
-
-        return own_object_methods
+        return [attr for attr in self.get_all_own_object_attrs() if callable(getattr(self.obj, attr))]
 
     def get_all_attrs_except_methods(self):
-        all_attrs = ObjectAnalysis.get_all_object_attrs(self)
 
-        except_methods = [attr for attr in all_attrs if not ObjectAnalysis.is_callable(self.obj, attr)]
 
-        return except_methods
+        return [attr for attr in
+                ObjectAnalysis.get_all_object_attrs(self) if not ObjectAnalysis.is_callable(self.obj, attr)]
 
 
 # Checks is object able to be ...
 class IsObjectAbleAnalysis:
-
     def __init__(self, obj):
         self.obj = obj
 
@@ -63,14 +50,13 @@ class IsObjectAbleAnalysis:
 
     def is_indexable(self):
         return hasattr(self.obj, '__getitem__')
-        
+
     def is_callable(self):
         return hasattr(self.obj, '__call__')
 
 
 # Wrapper
 class UniversalAnalysis:
-
     def __init__(self, obj):
         self.Able = IsObjectAbleAnalysis(obj)
         self.object_analysis = ObjectAnalysis(obj)
@@ -83,11 +69,9 @@ class UniversalAnalysis:
 
 # In my opinion this is the most important object info ( this will be completed )
 def the_most_important_info_of_object(obj, width=150):
-
-
     testing_obj = UniversalAnalysis(obj)
-    print('_-'*width, '\n')
-    print('The object to be analyzed       : %s' % obj,
+    print('_-' * width, '\n')
+    print('The object to be analyzed       : %s' % str(testing_obj.obj),  # to avoid tuple
           'The class of the object         : %s' % testing_obj.class_of_object,
           'Is indexable                    : %s' % testing_obj.is_indexable(),
           'Is iterable                     : %s' % testing_obj.is_iterable(),
@@ -100,8 +84,8 @@ def the_most_important_info_of_object(obj, width=150):
           sep='\n',
 
           )
-    print('\n', '_-'*width)
+    print('\n', '_-' * width)
 
 
 if __name__ == '__main__':
-    the_most_important_info_of_object('Testing')
+    the_most_important_info_of_object((1, 2))
