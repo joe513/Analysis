@@ -25,12 +25,10 @@ class ModuleAnalysis:
                 print('%s %s: %s' % (func, ' ' * x, getattr(self.module, str(func))))
 
     def get_avaiable_functions(self):
-        avaiabe_functions = [func for func in self.module.__dict__ if inspect.isfunction(getattr(self.module, func))]
-        return avaiabe_functions
+        return [func for func in self.module.__dict__ if inspect.isfunction(getattr(self.module, func))]
 
     def get_all_classes(self):
-        classes = [klass for klass in self.module.__dict__ if inspect.isclass(getattr(self.module, klass))]
-        return classes
+        return [klass for klass in self.module.__dict__ if inspect.isclass(getattr(self.module, klass))]
 
     def get_all_attrs(self):
         return self.module.__dict__
@@ -40,13 +38,12 @@ class ModuleAnalysis:
         own_attrs = {attr: getattr(self.module, attr) for attr in self.get_all_attrs()
                      if not re.match(self.pattern, str(attr))}
 
-        return own_attrs if dict_or_list == 'dict' else list(own_attrs.keys())
+        return own_attrs if dict_or_list == 'dict' else list(own_attrs)
 
     def get_all_attrs_beside_methods(self):
-        attrs_beside_methods = [attr for attr in self.module.__dict__
+        return [attr for attr in self.module.__dict__
                                 if not inspect.ismethod(getattr(self.module, attr))
                                 if not inspect.isfunction(getattr(self.module, attr))]
-        return attrs_beside_methods
 
 
 class TryCall(ModuleAnalysis):
@@ -60,4 +57,5 @@ class TryCall(ModuleAnalysis):
                     continue
 
 
-z = TryCall(analysis)
+test = TryCall(analysis)
+print(test.get_all_attrs_beside_methods(), test.get_avaiable_functions())
