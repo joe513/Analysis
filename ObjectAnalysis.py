@@ -6,9 +6,11 @@ __email__ = 'lezgintsev13@yandex.ru'
 
 
 class ObjectAnalysis:
+
+    pattern = re.compile('__(.*)__')
+
     def __init__(self, obj):
         self.obj = obj  # Processed object
-        self.pattern = re.compile('__(.*)__')
         self.class_of_object = self.obj.__class__  # This is the class of the object
 
     # Checking: is object callable
@@ -34,8 +36,6 @@ class ObjectAnalysis:
         return [attr for attr in self.get_all_own_object_attrs() if callable(getattr(self.obj, attr))]
 
     def get_all_attrs_except_methods(self):
-
-
         return [attr for attr in
                 ObjectAnalysis.get_all_object_attrs(self) if not ObjectAnalysis.is_callable(self.obj, attr)]
 
@@ -52,7 +52,7 @@ class IsObjectAbleAnalysis:
         return hasattr(self.obj, '__getitem__')
 
     def is_callable(self):
-        return hasattr(self.obj, '__call__')
+        return callable(self.obj)
 
 
 # Wrapper
@@ -71,7 +71,7 @@ class UniversalAnalysis:
 def the_most_important_info_of_object(obj, width=150):
     testing_obj = UniversalAnalysis(obj)
     print('_-' * width, '\n')
-    print('The object to be analyzed       : %s' % str(testing_obj.obj),  # to avoid tuple
+    print('The object to be analyzed       : %s' % testing_obj.obj,
           'The class of the object         : %s' % testing_obj.class_of_object,
           'Is indexable                    : %s' % testing_obj.is_indexable(),
           'Is iterable                     : %s' % testing_obj.is_iterable(),
@@ -87,5 +87,13 @@ def the_most_important_info_of_object(obj, width=150):
     print('\n', '_-' * width)
 
 
+def is_able_info(obj, width=150):
+    testing_obj = UniversalAnalysis(obj)
+    print('_-' * width, '\n')
+    print('Is object indexable              : %s' % testing_obj.is_indexable(),
+          'Is object callable               : %s' % testing_obj.is_callable(),
+          'Is object iterable               : %s' % testing_obj.is_iterable(),
+          )
+
 if __name__ == '__main__':
-    the_most_important_info_of_object((1, 2))
+    the_most_important_info_of_object('Bye')
